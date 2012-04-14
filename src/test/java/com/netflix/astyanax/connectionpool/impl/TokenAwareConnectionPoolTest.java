@@ -18,7 +18,6 @@ import com.netflix.astyanax.connectionpool.HostConnectionPool;
 import com.netflix.astyanax.connectionpool.Operation;
 import com.netflix.astyanax.fake.TestClient;
 import com.netflix.astyanax.fake.TestConnectionFactory;
-import com.netflix.astyanax.fake.TestConstants;
 import com.netflix.astyanax.fake.TestHostType;
 import com.netflix.astyanax.fake.TestOperation;
 import com.netflix.astyanax.util.TokenGenerator;
@@ -31,7 +30,7 @@ public class TokenAwareConnectionPoolTest extends BaseConnectionPoolTest {
 
     protected ConnectionPool<TestClient> createPool() {
         ConnectionPoolConfiguration config = new ConnectionPoolConfigurationImpl(
-                TestConstants.CLUSTER_NAME + "_" + TestConstants.KEYSPACE_NAME);
+                "TestCluster" + "_" + "Keyspace1");
 
         CountingConnectionPoolMonitor monitor = new CountingConnectionPoolMonitor();
 

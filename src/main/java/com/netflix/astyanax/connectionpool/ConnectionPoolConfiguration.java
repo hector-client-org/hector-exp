@@ -17,8 +17,6 @@ package com.netflix.astyanax.connectionpool;
 
 import java.util.List;
 
-import com.netflix.astyanax.AuthenticationCredentials;
-
 public interface ConnectionPoolConfiguration {
     /**
      * TODO
@@ -236,5 +234,5 @@ public interface ConnectionPoolConfiguration {
      * 
      * @return
      */
-    AuthenticationCredentials getAuthenticationCredentials();
+    //AuthenticationCredentials getAuthenticationCredentials();
 }

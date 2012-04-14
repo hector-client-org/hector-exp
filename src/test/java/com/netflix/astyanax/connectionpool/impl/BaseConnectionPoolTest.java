@@ -31,14 +31,14 @@ import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
 import com.netflix.astyanax.connectionpool.exceptions.NoAvailableHostsException;
 import com.netflix.astyanax.connectionpool.exceptions.OperationException;
 import com.netflix.astyanax.connectionpool.exceptions.TransportException;
+import com.netflix.astyanax.connectionpool.retry.RetryPolicy;
+import com.netflix.astyanax.connectionpool.retry.RunOnce;
 import com.netflix.astyanax.fake.TestClient;
 import com.netflix.astyanax.fake.TestConnectionFactory;
-import com.netflix.astyanax.fake.TestConstants;
 import com.netflix.astyanax.fake.TestHostType;
 import com.netflix.astyanax.fake.TestOperation;
-import com.netflix.astyanax.retry.ConstantBackoff;
-import com.netflix.astyanax.retry.RetryPolicy;
-import com.netflix.astyanax.retry.RunOnce;
+import com.netflix.astyanax.connectionpool.retry.ConstantBackoff;
+
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -263,7 +263,7 @@ public abstract class BaseConnectionPoolTest {
     @Test
     public void testDefaultConfig() {
         ConnectionPoolConfiguration config = new ConnectionPoolConfigurationImpl(
-                TestConstants.CLUSTER_NAME + "_" + TestConstants.KEYSPACE_NAME);
+                "TestCluster" + "_" + "Keyspace1");
         CountingConnectionPoolMonitor monitor = new CountingConnectionPoolMonitor();
         try {
             ConnectionPool<TestClient> pool = new RoundRobinConnectionPoolImpl<TestClient>(

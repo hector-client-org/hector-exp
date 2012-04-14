@@ -19,14 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
-import com.netflix.astyanax.AuthenticationCredentials;
+import com.netflix.astyanax.connectionpool.AuthenticationCredentials;
 import com.netflix.astyanax.connectionpool.BadHostDetector;
 import com.netflix.astyanax.connectionpool.ConnectionPoolConfiguration;
 import com.netflix.astyanax.connectionpool.Host;
 import com.netflix.astyanax.connectionpool.LatencyScoreStrategy;
 import com.netflix.astyanax.connectionpool.RetryBackoffStrategy;
-import com.netflix.astyanax.shallows.EmptyBadHostDetectorImpl;
-import com.netflix.astyanax.shallows.EmptyLatencyScoreStrategyImpl;
 import com.netflix.astyanax.util.StringUtils;
 
 public class ConnectionPoolConfigurationImpl implements
@@ -57,8 +55,10 @@ public class ConnectionPoolConfigurationImpl implements
     public static final int DEFAULT_RETRY_DELAY_SLICE = 1000;
     public static final int DEFAULT_RETRY_MAX_DELAY_SLICE = 10;
     public static final int DEFAULT_MAX_OPERATIONS_PER_CONNECTION = 10000;
-    public static final BadHostDetector DEFAULT_BAD_HOST_DETECTOR = EmptyBadHostDetectorImpl
-            .getInstance();
+    public static final BadHostDetector DEFAULT_BAD_HOST_DETECTOR = EmptyBadHostDetectorImpl.getInstance();
+    public static final LatencyScoreStrategy DEFAULT_LATENCY_SCORE_STRATEGY = EmptyLatencyScoreStrategyImpl.instance;
+
+
 
     private final String name;
 
@@ -89,8 +89,8 @@ public class ConnectionPoolConfigurationImpl implements
     private String seeds = null;
     private int maxTimeoutWhenExhausted = DEFAULT_MAX_TIME_WHEN_EXHAUSTED;
     private RetryBackoffStrategy hostRetryBackoffStrategy = null;
-    private LatencyScoreStrategy latencyScoreStrategy = new EmptyLatencyScoreStrategyImpl();
-    private BadHostDetector badHostDetector = DEFAULT_BAD_HOST_DETECTOR;
+    private LatencyScoreStrategy latencyScoreStrategy = DEFAULT_LATENCY_SCORE_STRATEGY;
+    private BadHostDetector badHostDetector;
     private AuthenticationCredentials credentials = null;
 
     public ConnectionPoolConfigurationImpl(String name) {
@@ -473,7 +473,6 @@ public class ConnectionPoolConfigurationImpl implements
                 ConnectionPoolConfigurationImpl.class);
     }
 
-    @Override
     public AuthenticationCredentials getAuthenticationCredentials() {
         return credentials;
     }

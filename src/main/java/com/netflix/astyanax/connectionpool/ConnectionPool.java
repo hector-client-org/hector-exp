@@ -21,7 +21,7 @@ import java.util.Map;
 
 import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
 import com.netflix.astyanax.connectionpool.exceptions.OperationException;
-import com.netflix.astyanax.retry.RetryPolicy;
+import com.netflix.astyanax.connectionpool.retry.RetryPolicy;
 
 /**
  * Base interface for a pool of connections. A concrete connection pool will

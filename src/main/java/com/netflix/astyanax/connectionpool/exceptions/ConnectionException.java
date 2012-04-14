@@ -27,7 +27,7 @@ import com.netflix.astyanax.connectionpool.Host;
  * @author elandau
  * 
  */
-public abstract class ConnectionException extends Exception {
+public class ConnectionException extends Exception {
     /**
      * 
      */

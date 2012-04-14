@@ -30,14 +30,11 @@ import com.netflix.astyanax.connectionpool.OperationResult;
 import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
 import com.netflix.astyanax.connectionpool.exceptions.NoAvailableHostsException;
 import com.netflix.astyanax.connectionpool.exceptions.OperationException;
-import com.netflix.astyanax.connectionpool.impl.ConnectionPoolConfigurationImpl;
-import com.netflix.astyanax.connectionpool.impl.RoundRobinConnectionPoolImpl;
 import com.netflix.astyanax.fake.TestClient;
 import com.netflix.astyanax.fake.TestConnectionFactory;
-import com.netflix.astyanax.fake.TestConstants;
 import com.netflix.astyanax.fake.TestHostType;
 import com.netflix.astyanax.fake.TestOperation;
-import com.netflix.astyanax.retry.RunOnce;
+import com.netflix.astyanax.connectionpool.retry.RunOnce;
 
 public class Stress {
     private static Logger LOG = LoggerFactory.getLogger(Stress.class);
@@ -51,8 +48,9 @@ public class Stress {
         final int numOperations = 1000000000;
 
         ConnectionPoolConfigurationImpl config;
-        config = new ConnectionPoolConfigurationImpl(TestConstants.CLUSTER_NAME
-                + "_" + TestConstants.KEYSPACE_NAME);
+      // TODO add back test constants
+        config = new ConnectionPoolConfigurationImpl("TestCluster"
+                + "_" + "Keyspace1");
         config.setMaxConns(100);
         config.setMaxFailoverCount(-1);
         config.setMaxTimeoutWhenExhausted(1000);

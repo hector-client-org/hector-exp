@@ -32,7 +32,8 @@ import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
 import com.netflix.astyanax.connectionpool.exceptions.IsTimeoutException;
 import com.netflix.astyanax.connectionpool.exceptions.ThrottledException;
 import com.netflix.astyanax.connectionpool.exceptions.UnknownException;
-import com.netflix.astyanax.thrift.ThriftConverter;
+import com.netflix.astyanax.connectionpool.exceptions.ThriftExceptionConverter;
+
 
 public class TestConnectionFactory implements ConnectionFactory<TestClient> {
     private final ConnectionPoolConfiguration config;
@@ -72,13 +73,15 @@ public class TestConnectionFactory implements ConnectionFactory<TestClient> {
                 } catch (Exception e) {
                     long now = System.nanoTime();
                     latency = now - startTime;
-                    ConnectionException connectionException = ThriftConverter
+                  // TODO connectionException was abstract
+                  // move exception portion of thriftConverter to exception pacakage
+                    ConnectionException connectionException = ThriftExceptionConverter
                             .ToConnectionPoolException(e).setLatency(latency);
-                    if (!(connectionException instanceof IsTimeoutException)) {
-                        pool.addLatencySample(latency, now);
-                    }
-                    lastException = connectionException;
-                    throw lastException;
+                  if (!(e instanceof IsTimeoutException)) {
+                                                            pool.addLatencySample(latency, now);
+                                                        }
+                  lastException = connectionException;
+                  throw lastException;
                 }
             }
 

@@ -32,12 +32,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RoundRobinConnectionPoolImpl<CL> extends
         AbstractHostPartitionConnectionPool<CL> {
 
-    private final AtomicInteger roundRobinCounter = new AtomicInteger(
-            new Random().nextInt(997));
+    private int counter;
 
     public RoundRobinConnectionPoolImpl(ConnectionPoolConfiguration config,
             ConnectionFactory<CL> factory, ConnectionPoolMonitor monitor) {
         super(config, factory, monitor);
+      counter = 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -55,6 +55,20 @@ public class RoundRobinConnectionPoolImpl<CL> extends
         }
         return new RoundRobinExecuteWithFailover<CL, R>(config, monitor,
                 topology.getAllPools().getPools(),
-                roundRobinCounter.incrementAndGet());
+                incrementAndGet());
     }
+
+  private int incrementAndGet() {
+    int counterToReturn;
+    // Avoids having to deal with roll-over issues with Atomic[Long|Int] as they
+    // approach their max values
+    synchronized (this) {
+      if (counter >= 16384) {
+        counter = 0;
+      }
+      counterToReturn = counter++;
+    }
+    return counterToReturn;
+  }
+
 }

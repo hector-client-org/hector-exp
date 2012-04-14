@@ -18,7 +18,6 @@ public interface LatencyScoreStrategy {
          * Add a single latency sample
          * 
          * @param sample
-         * @param now
          */
         void addSample(long sample);
 

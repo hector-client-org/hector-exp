@@ -26,7 +26,7 @@ import com.netflix.astyanax.connectionpool.Operation;
 import com.netflix.astyanax.connectionpool.OperationResult;
 import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
 import com.netflix.astyanax.connectionpool.exceptions.OperationException;
-import com.netflix.astyanax.retry.RetryPolicy;
+import com.netflix.astyanax.connectionpool.retry.RetryPolicy;
 
 public class TestConnectionPool implements ConnectionPool<TestClient> {
 

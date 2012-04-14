@@ -15,51 +15,34 @@
  ******************************************************************************/
 package com.netflix.astyanax.connectionpool;
 
-import java.math.BigInteger;
-
+import com.netflix.astyanax.connectionpool.OperationResult;
 import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
-import com.netflix.astyanax.connectionpool.exceptions.OperationException;
+
+import java.util.concurrent.Future;
 
 /**
- * Callback interface to perform an operation on a client associated with a
- * connection pool's connection resource
+ * Interface for an operation that can be executed on the cluster.
  * 
  * @author elandau
  * 
- * @param <CL>
  * @param <R>
  */
-public interface Operation<CL, R> {
+public interface Execution<R> {
     /**
-     * Execute the operation on the client object and return the results
+     * Block while executing the operations
      * 
-     * @param client
      * @return
      * @throws ConnectionException
      */
-    R execute(CL client) throws ConnectionException;
+    OperationResult<R> execute() throws ConnectionException;
 
     /**
-     * Return the unique key on which the operation is performed or null if the
-     * operation is performed on multiple keys.
+     * Return a future to the operation. The operation will most likely be
+     * executed in a separate thread where both the connection pool logic as
+     * well as the actual operation will be executed.
      * 
      * @return
+     * @throws ConnectionException
      */
-    BigInteger getToken();
-
-    /**
-     * Return keyspace for this operation. Return null if using the current
-     * keyspace, or a keyspace is not needed for the operation.
-     * 
-     * @return
-     */
-    String getKeyspace();
-
-    /**
-     * Return the host to run on or null to select a host using the load
-     * blancer. Failover is disabled for this scenario.
-     *
-     * @return
-     */
-    Host getPinnedHost();
+    Future<OperationResult<R>> executeAsync() throws ConnectionException;
 }

@@ -3,7 +3,7 @@ package com.netflix.astyanax.connectionpool.impl;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.netflix.astyanax.AuthenticationCredentials;
+import com.netflix.astyanax.connectionpool.AuthenticationCredentials;
 
 public class SimpleAuthenticationCredentials implements
         AuthenticationCredentials {
